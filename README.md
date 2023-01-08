@@ -1,6 +1,6 @@
 # ImageJAddins
 A class for making it easier to write imageJ plugins.  It currently contains only one class, GenericDialogAddin.
-<p>The GenerigDialogAddin class contains methods that return a Field containing references to the individual components created by an immediately preceding call to a GenericDialog addXxxx method. This allows full access to each component's methods independent of its creation order in the dialog. If this sounds complicated, using the Addin is actually quite easy. The JavaDocs for GenericDialogAddin are <a href="https://lazzyizzi.github.io/GenericDialogAddin/jhd/AddIns/package-summary.html" target="_blank">here</a>.</p>
+<p>The GenericDialogAddin class contains methods that return a Field containing references to the individual components created by an immediately preceding call to a GenericDialog addXxxx method. This allows full access to each component's methods independent of its creation order in the dialog. If this sounds complicated, using the Addin is actually quite easy. The JavaDocs for GenericDialogAddin are <a href="https://lazzyizzi.github.io/GenericDialogAddin/jhd/AddIns/package-summary.html" target="_blank">here</a>.</p>
 <p>The example is adapted from the X-ray Calculator plugin.</p>
 <ul>
 	<li>The XxxxField declarations and the GenericDialogAddin instance "gda" have plugin wide scope.</li>
