@@ -2,8 +2,7 @@ package jhd.ImageJAddins;
 
 
 import java.awt.*;
-import java.awt.event.ItemListener;
-import java.awt.event.TextListener;
+import java.awt.event.*;
 import java.util.Vector;
 import ij.IJ;
 import ij.gui.GenericDialog;
@@ -456,8 +455,7 @@ public class GenericDialogAddin
 	 * @param buttonName assign this name to the button Label (ActionCommand)<br>
 	 * Pass null as argument to retain the Button's component default name.
 	 * @return a reference to the objects in the prior addButton
-	 */
-	
+	 */	
 	public  ButtonField getButtonField(GenericDialog gd,String buttonName)
 	{
 		int cnt = gd.getComponentCount();
@@ -563,7 +561,6 @@ public class GenericDialogAddin
 		}		
 	}
 	
-
 	/**Call immediately after addNumericField if you need to access the StringField's methods.<br>
 	 * Pass null as arguments to retain respective component default names.
 	 * @param gd The parent GenericDialog.
@@ -778,10 +775,166 @@ public class GenericDialogAddin
 			
 			fpf= new PathField(label,panel,textField,button);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 				
 		return fpf;
 	}
-}
+
+
+	/**A class that attaches a "spinner" widget to a GenericDialog.addNumericField's TextField
+	 * @author LazzyIzzi
+	 *
+	 */
+	public class SpinnerPanel implements  ActionListener,TextListener
+	{
+		//private Label label;
+		private TextField valTF;
+		private TextField incTF;
+
+		/**Default Constructor
+		 * 
+		 */
+		public SpinnerPanel() {}
+
+		/**
+//		 * @return the SpinnerField Label Object
+//		 */
+//		public String getLabel()
+//		{
+//			return label.getText();
+//		}
+		/**
+		 * @return the number in the SpinnerField or NaN
+		 */
+		public double getValue()
+		{
+			String text = valTF.getText();
+			if(isNumeric(text)) return Double.parseDouble(text);
+			else return Double.NaN;
+		}
+		/**
+		 * @param val set the SpinnerField value to this value
+		 */
+		public void setValue(Double val)
+		{
+			valTF.setText(val.toString());
+		}					
+		/**
+		 * @return the number in the SpinnerField or NaN
+		 */
+		public double getIncrement()
+		{
+			String text = incTF.getText();
+			if(isNumeric(text)) return Double.parseDouble(text);
+			else return Double.NaN;
+		}
+		/**
+		 * @param number set the SpinnerField value to this value
+		 */
+		public void setIncrement(double number)
+		{
+			incTF.setText(String.valueOf(number));
+		}
+		
+		/**Adds a spinner panel to a GenericDialog.addNumericField component
+		 * <br>e.g.
+		 * <br>gd.addNumericField("DegC", 50);		
+		 * <br>gd.addToSameRow(); //Optional
+		 * <br>gd.addPanel(new SpinnerPanel().addSpinner((TextField)gd.getNumericFields().get(index),1.0));
+		 * <br>where index is the zero-based current count of addNumericField items in the dialog.
+		 * <br>Note: A GenericDialog NumericField is actually a Java TextField
+		 * @param numericField A NumericField added by GenericDialog.addNumericField
+		 * @param numericFieldName assign this name to the numericField, if "null", the numericField will be named "spinVal"
+		 * @param increment The increment for the spinner parameter
+		 * @return a panel containing a label, a value, a "+" button, a "-" button and an increment
+		 */
+		public Panel addSpinner(TextField numericField, String numericFieldName, Double increment)
+		{
+			Panel spinPanel = new Panel();
+
+			valTF = (TextField)numericField;
+			if(numericFieldName!=null) valTF.setName(numericFieldName);
+			else valTF.setName("spinVal");
+			valTF.addTextListener(this);
+			spinPanel.add(valTF);
+
+			Button upBtn = new Button(" + ");
+			upBtn.setName("upBtn");
+			spinPanel.add(upBtn);
+			upBtn.addActionListener(this);
+
+			Button downBtn = new Button(" - ");
+			downBtn.setName("downBtn");
+			spinPanel.add(downBtn);
+			downBtn.addActionListener(this);
+
+			incTF = new TextField(increment.toString());
+			incTF.setName("increment");
+			incTF.addTextListener(this);
+			spinPanel.add(incTF);
+
+			spinPanel.add(new Label("Inc"));
+			return spinPanel;
+		}
+
+		//************************************************************************
+
+		@Override
+		public void textValueChanged(TextEvent e)
+		{
+			Object src = e.getSource();
+			if(src instanceof TextField)
+			{
+				//Both spinner TextFields must be numeric
+				TextField tf = (TextField)src;
+				if(isNumeric(tf.getText()))
+				{
+					tf.setBackground(Color.white);
+				}
+				else
+				{
+					tf.setBackground(Color.red);
+				}
+			}			
+		}
+
+		//************************************************************************
+
+		public void actionPerformed(ActionEvent e)
+		{
+			//IJ.log("spinner actionPerformed");
+			double inc = getIncrement();
+			double val = getValue();
+
+			String cmd = e.getActionCommand();
+			switch(cmd)
+			{
+			case " + ":
+				setValue(val + inc);
+				break;
+			case " - ":
+				setValue(val - inc);
+				break;
+			}
+		}
+	}
+
+	//*******************************************************************************
+
+	/**
+	 * @param str Determines if a String is a numeric value
+	 * @return true if str is a number, false if not.
+	 */
+	public static boolean isNumeric(String str)
+	{ 
+		try
+		{  
+			Double.parseDouble(str);  
+			return true;
+		}
+		catch(NumberFormatException e)
+		{  
+			return false;  
+		}  
+	}}
