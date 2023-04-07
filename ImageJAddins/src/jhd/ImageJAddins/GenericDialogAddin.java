@@ -797,16 +797,16 @@ public class GenericDialogAddin
 		 */
 		public SpinnerPanel() {}
 
-		/**
+//		/**
 //		 * @return the SpinnerField Label Object
 //		 */
 //		public String getLabel()
 //		{
 //			return label.getText();
 //		}
-		/**
-		 * @return the number in the SpinnerField or NaN
-		 */
+//		/**
+//		 * @return the number in the SpinnerField or NaN
+//		 */
 		public double getValue()
 		{
 			String text = valTF.getText();
