@@ -3,7 +3,9 @@ package jhd.ImageJAddins;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 import java.util.Vector;
+import java.util.EventListener;
 import ij.IJ;
 import ij.gui.GenericDialog;
 import ij.gui.TrimmedButton;
@@ -64,22 +66,22 @@ public class GenericDialogAddin
 		public String getButtonLabel() {
 			return trimmedButton.getLabel();
 		}
-//		No Setters
-//		public void setButtonLabel(String buttonLabel) {
-//			trimmedButton.setLabel(buttonLabel);
-//		}
-//		public void setPanel(Panel panel) {
-//			this.panel = panel;
-//		}
-//		public void setTextField(TextField textField) {
-//			this.textField = textField;
-//		}
-//		public void setTrimmedButton(TrimmedButton trimmedButton) {
-//			this.trimmedButton = trimmedButton;
-//		}
+		//		No Setters
+		//		public void setButtonLabel(String buttonLabel) {
+		//			trimmedButton.setLabel(buttonLabel);
+		//		}
+		//		public void setPanel(Panel panel) {
+		//			this.panel = panel;
+		//		}
+		//		public void setTextField(TextField textField) {
+		//			this.textField = textField;
+		//		}
+		//		public void setTrimmedButton(TrimmedButton trimmedButton) {
+		//			this.trimmedButton = trimmedButton;
+		//		}
 	}
-	
-	
+
+
 	/**A class containing the Label Object created by GenericDialog.addMessage
 	 * @author LazzyIzzi
 	 */
@@ -98,7 +100,11 @@ public class GenericDialogAddin
 		public Label getLabel()
 		{
 			return label;
-		}	
+		}
+		public void setLabel(String labelText)
+		{
+			label.setText(labelText);
+		}
 	}
 
 	/**A class containing the Object(s) created by GenericDialog.addButton
@@ -172,7 +178,7 @@ public class GenericDialogAddin
 			for(int i=0;i<cnt;i++)
 			{
 				items[i]= choice.getItem(i);
-				
+
 			}
 			return items;
 		}
@@ -529,7 +535,7 @@ public class GenericDialogAddin
 			return null;
 		}		
 	}
-	
+
 	/**Call immediately after the extended form of addNumericField if you need to access the StringField's methods.<br>
 	 * Pass null as arguments to retain respective component default names.
 	 * @param gd The parent GenericDialog.
@@ -549,7 +555,7 @@ public class GenericDialogAddin
 			if(numericFieldName!=null)tf.setName(numericFieldName);
 			Label lbl  = (Label)panel.getComponent(1);
 			if(labelName!=null)lbl.setName(labelName);
-			
+
 			NumericField sf = new NumericField(lbl,tf);
 
 			return sf;
@@ -560,7 +566,7 @@ public class GenericDialogAddin
 			return null;
 		}		
 	}
-	
+
 	/**Call immediately after addNumericField if you need to access the StringField's methods.<br>
 	 * Pass null as arguments to retain respective component default names.
 	 * @param gd The parent GenericDialog.
@@ -759,25 +765,25 @@ public class GenericDialogAddin
 		int cnt = gd.getComponentCount();
 		int labelIndex = cnt-2;
 		int panelIndex = cnt-1;
-				
+
 		try {
 			Label label = (Label) gd.getComponent(labelIndex);
 			if(labelName!=null) label.setName(labelName);
-			
+
 			Panel panel = (Panel)gd.getComponent(panelIndex);
 			if(panelName!=null) panel.setName(panelName);
-			
+
 			TextField textField = (TextField)panel.getComponent(0);
 			if(textFieldName!=null) textField.setName(textFieldName);
-			
+
 			TrimmedButton button = (TrimmedButton)panel.getComponent(1);
 			if(buttonName!=null) button.setName(buttonName);		
-			
+
 			fpf= new PathField(label,panel,textField,button);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-				
+
 		return fpf;
 	}
 
@@ -797,16 +803,16 @@ public class GenericDialogAddin
 		 */
 		public SpinnerPanel() {}
 
-//		/**
-//		 * @return the SpinnerField Label Object
-//		 */
-//		public String getLabel()
-//		{
-//			return label.getText();
-//		}
-//		/**
-//		 * @return the number in the SpinnerField or NaN
-//		 */
+		//		/**
+		//		 * @return the SpinnerField Label Object
+		//		 */
+		//		public String getLabel()
+		//		{
+		//			return label.getText();
+		//		}
+		//		/**
+		//		 * @return the number in the SpinnerField or NaN
+		//		 */
 		public double getValue()
 		{
 			String text = valTF.getText();
@@ -836,7 +842,7 @@ public class GenericDialogAddin
 		{
 			incTF.setText(String.valueOf(number));
 		}
-		
+
 		/**Adds a spinner panel to a GenericDialog.addNumericField component
 		 * <br>e.g.
 		 * <br>gd.addNumericField("DegC", 50);		
@@ -937,4 +943,5 @@ public class GenericDialogAddin
 		{  
 			return false;  
 		}  
-	}}
+	}
+}
