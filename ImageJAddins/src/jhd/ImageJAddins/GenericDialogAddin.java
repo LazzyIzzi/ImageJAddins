@@ -5,9 +5,9 @@ package jhd.ImageJAddins;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList;
+
 import java.util.Vector;
-import java.util.EventListener;
+
 import ij.IJ;
 import ij.gui.GenericDialog;
 import ij.gui.TrimmedButton;
@@ -87,6 +87,10 @@ public class GenericDialogAddin
 	/**A class containing the Label Object created by GenericDialog.addMessage
 	 * @author LazzyIzzi
 	 */
+	/**
+	 * @author John
+	 *
+	 */
 	public class MessageField
 	{
 		private Label label;
@@ -96,13 +100,16 @@ public class GenericDialogAddin
 			this.label = label;
 		}
 
-		/**
+		/**returns the Message's Label Object
 		 * @return the Message's Label Object
 		 */
 		public Label getLabel()
 		{
 			return label;
 		}
+		/**Sets the MessageField's Label
+		 * @param labelText the new text for the label
+		 */
 		public void setLabel(String labelText)
 		{
 			label.setText(labelText);
@@ -812,9 +819,9 @@ public class GenericDialogAddin
 		//		{
 		//			return label.getText();
 		//		}
-		//		/**
-		//		 * @return the number in the SpinnerField or NaN
-		//		 */
+		/**
+		 * @return the number in the SpinnerField or NaN
+		 */
 		public double getValue()
 		{
 			String text = valTF.getText();
